@@ -10,8 +10,11 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use App\Enums\UserRole;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     use HasApiTokens;
 
@@ -65,6 +68,11 @@ class User extends Authenticatable
         'role' => UserRole::class,
     ];
 
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->isAdmin() && $this->hasVerifiedEmail();
+    }
+
     // Méthodes helpers pour vérifier le rôle
     public function isAdmin(): bool
     {
@@ -74,5 +82,10 @@ class User extends Authenticatable
     public function isCustomer(): bool
     {
         return $this->role === UserRole::CUSTOMER;
+    }
+
+    public function customer(): HasOne
+    {
+        return $this->hasOne(Customer::class);
     }
 }

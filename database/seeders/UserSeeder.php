@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Customer;
 use App\Enums\UserRole;
 use Illuminate\Database\Seeder;
 
@@ -17,9 +18,11 @@ class UserSeeder extends Seeder
             'role' => UserRole::ADMIN,
         ]);
 
-        // Créer quelques clients
-        User::factory(10)->create([
-            'role' => UserRole::CUSTOMER,
-        ]);
+        // Créer des clients avec leurs profils
+        User::factory(10)
+            ->has(Customer::factory())
+            ->create([
+                'role' => UserRole::CUSTOMER,
+            ]);
     }
 }
