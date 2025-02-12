@@ -9,20 +9,20 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use App\Filament\Resources\CustomerResource\Pages;
+use App\Filament\Resources\AdminResource\Pages;
 
-class CustomerResource extends Resource
+class AdminResource extends Resource
 {
     protected static ?string $model = User::class;
-    protected static ?string $navigationIcon = 'heroicon-o-users';
-    protected static ?string $navigationLabel = 'Clients';
-    protected static ?int $navigationSort = 2;
-    protected static ?string $modelLabel = 'Client';
-    protected static ?string $pluralModelLabel = 'Clients';
+    protected static ?string $navigationIcon = 'heroicon-o-shield-check';
+    protected static ?string $navigationLabel = 'Administrateurs';
+    protected static ?int $navigationSort = 1;
+    protected static ?string $modelLabel = 'Administrateur';
+    protected static ?string $pluralModelLabel = 'Administrateurs';
 
     public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
     {
-        return parent::getEloquentQuery()->where('role', UserRole::CUSTOMER);
+        return parent::getEloquentQuery()->where('role', UserRole::ADMIN);
     }
 
     public static function form(Form $form): Form
@@ -32,12 +32,6 @@ class CustomerResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Fieldset::make('Informations client')
-                    ->relationship('customer')
-                    ->schema([
-                        Forms\Components\TextInput::make('phone'),
-
-                ]),
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
@@ -48,7 +42,7 @@ class CustomerResource extends Resource
                     ->dehydrated(fn ($state) => filled($state))
                     ->required(fn (string $context): bool => $context === 'create'),
                 Forms\Components\Hidden::make('role')
-                    ->default(UserRole::CUSTOMER),
+                    ->default(UserRole::ADMIN),
             ]);
     }
 
@@ -60,17 +54,6 @@ class CustomerResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('customer.phone')
-                    ->label('Téléphone'),
-                Tables\Columns\TextColumn::make('customer.gender')
-                    ->label('Genre')
-                    ->badge()
-                    ->formatStateUsing(fn (\App\Enums\CustomerGender $state) => $state->label())
-                    ->color(fn (\App\Enums\CustomerGender $state) => match($state) {
-                        \App\Enums\CustomerGender::MALE => 'info',
-                        \App\Enums\CustomerGender::FEMALE => 'warning',
-                        \App\Enums\CustomerGender::OTHER => 'success',
-                    }),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->dateTime()
                     ->sortable(),
@@ -95,9 +78,9 @@ class CustomerResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCustomers::route('/'),
-            'create' => Pages\CreateCustomer::route('/create'),
-            'edit' => Pages\EditCustomer::route('/{record}/edit'),
+            'index' => Pages\ListAdmins::route('/'),
+            'create' => Pages\CreateAdmin::route('/create'),
+            'edit' => Pages\EditAdmin::route('/{record}/edit'),
         ];
     }
 }

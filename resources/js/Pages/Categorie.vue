@@ -15,6 +15,6 @@ console.log(props.categories)
     <h1>luc rousseau</h1>
 
     <a v-for="c in categories" :key="c.id" href="categories">
-        <p>{{ c.name }}</p>
+        <p class="hover:font-bold">{{ c.name }}</p>
     </a>
 </template>

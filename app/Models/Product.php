@@ -25,9 +25,17 @@ class Product extends Model
     {
         return Attribute::make(
             get: fn (string $value) => $value / 100,
-            set: fn (string $value) => $value * 100,
+            set: fn (string $value) => $value * 100
         );
     }
+    protected function discountedPrice(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => $value / 100,
+            set: fn (string $value) => $value * 100
+        );
+    }
+
 
     public function categories(): BelongsToMany
     {
