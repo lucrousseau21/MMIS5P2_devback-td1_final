@@ -12,6 +12,10 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 
 class CustomerResource extends Resource
 {
@@ -26,6 +30,12 @@ class CustomerResource extends Resource
                 Forms\Components\Select::make('user_id')
                     ->relationship('user', 'name')
                     ->required(),
+                // Fieldset::make('Label')
+                //     ->schema([
+                //         Forms\Components\TextInput::make('user_id')
+                //             ->relationship('user', 'name')
+                //             ->required(),
+                //     ]),
                 Forms\Components\TextInput::make('phone')
                     ->tel(),
                 Forms\Components\DatePicker::make('birth_date'),

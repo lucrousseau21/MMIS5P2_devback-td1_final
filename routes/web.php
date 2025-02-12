@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ShowAllCategoriesController;
+use App\Http\Controllers\ShowAllProductsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -12,6 +14,10 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
+Route::get('/categories', ShowAllCategoriesController::class)->name('categories');
+Route::get('/products', ShowAllProductsController::class)->name('products');
+
 
 Route::middleware([
     'auth:sanctum',
