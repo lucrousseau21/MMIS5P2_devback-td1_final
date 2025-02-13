@@ -14,6 +14,10 @@ class ShowAllProductsController extends Controller
     public function __invoke(Request $request)
     {
         $products = Product::all();
+        $products = $products->map(function ($product) {
+            $product->price = $product->price / 100;
+            return $product;
+        });
         return Inertia::render('Products', ['products' => $products]);
     }
 }

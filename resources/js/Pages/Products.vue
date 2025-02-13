@@ -1,5 +1,7 @@
 <script setup>
 import { Head, Link } from "@inertiajs/vue3";
+import AppLayout from '@/Layouts/AppLayout.vue';
+
 
 const props = defineProps({
     products: {
@@ -8,16 +10,15 @@ const props = defineProps({
     },
 });
 
-console.log(props.producst);
+console.log(props.products);
 </script>
 
 <template>
-    <h1>products</h1>
-
-    <div v-for="c in products" :key="c.id" href="products">
-        <!-- <p>{{ c.name }}</p>
-        <p>{{ c.description }}</p> -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <AppLayout>
+        <h1 class="text-3xl font-bold">page qui affiche tout mes produits</h1>
+        <div
+            class="max-w-[1100px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-8"
+        >
             <a v-for="c in products" :key="c.id" href="#" class="group block">
                 <img
                     src="https://picsum.photos/200/300"
@@ -38,9 +39,9 @@ console.log(props.producst);
                         </p>
                     </div>
 
-                    <p class="text-gray-900">{{ c.price }}</p>
+                    <p class="text-gray-900">{{ c.price }}€</p>
                 </div>
             </a>
         </div>
-    </div>
+    </AppLayout>
 </template>
