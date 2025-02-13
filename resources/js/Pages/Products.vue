@@ -18,7 +18,7 @@ console.log(props.products);
         <div
             class="max-w-[1100px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-8"
         >
-            <a v-for="c in products" :key="c.id" href="#" class="group block">
+            <a v-for="c in products" :key="c.id" href="" class="group block">
                 <img
                     src="https://picsum.photos/200/300"
                     alt=""
