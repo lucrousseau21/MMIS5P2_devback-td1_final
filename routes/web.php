@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShowAllCategoriesController;
 use App\Http\Controllers\ShowAllProductsController;
+use App\Http\Controllers\ShowOneProduct;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -19,7 +20,10 @@ use Inertia\Inertia;
 Route::get('/', HomeController::class)->name('home');
 
 Route::get('/categories', ShowAllCategoriesController::class)->name('categories');
+
 Route::get('/products', ShowAllProductsController::class)->name('products');
+Route::get('/products/{product}', ShowOneProduct::class)->name('products.show');
+
 
 
 Route::middleware([

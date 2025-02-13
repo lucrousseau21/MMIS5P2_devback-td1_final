@@ -4,19 +4,16 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 
 
 const props = defineProps({
-    categories: {
+    product: {
         type: String,
         required: true,
     },
 });
 
-console.log(props.categories);
+console.log(props.products);
 </script>
 
 <template>
-        <h1>luc rousseau</h1>
-
-        <a v-for="c in categories" :key="c.id" href="categories">
-            <p class="hover:font-bold">{{ c.name }}</p>
-        </a>
+        <h1 class="text-3xl font-bold">page qui affiche qu'un produit</h1>
+        
 </template>

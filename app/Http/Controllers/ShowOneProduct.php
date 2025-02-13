@@ -6,14 +6,16 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class ShowAllProductsController extends Controller
+class ShowOneProduct extends Controller
 {
     /**
      * Handle the incoming request.
      */
     public function __invoke(Request $request)
     {
-        $products = Product::all();
-        return Inertia::render('Products', ['products' => $products]);
+        $productId = $request->route('id');
+        $product = Product::find($productId);
+
+        return Inertia::render('Product', ['product' => $product]);
     }
 }

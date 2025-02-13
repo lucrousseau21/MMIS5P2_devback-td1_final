@@ -13,7 +13,6 @@ const props = defineProps({
 </script>
 
 <template class="bg-gray-50 max-w-[1100px]">
-    <AppLayout>
         <!-- <h1 class="text-3xl font-bold">home</h1> -->
         <section class="bg-gray-50 h-[75vh]">
             <div
@@ -61,5 +60,4 @@ const props = defineProps({
                 {{ c.name }}
             </a>
         </div>
-    </AppLayout>
 </template>

@@ -14,7 +14,6 @@ console.log(props.products);
 </script>
 
 <template>
-    <AppLayout>
         <h1 class="text-3xl font-bold">page qui affiche tout mes produits</h1>
         <div
             class="max-w-[1100px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-8"
@@ -43,5 +42,4 @@ console.log(props.products);
                 </div>
             </a>
         </div>
-    </AppLayout>
 </template>
