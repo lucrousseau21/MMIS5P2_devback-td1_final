@@ -11,11 +11,13 @@ class ShowOneProduct extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request)
+    public function __invoke(Product $product)
     {
-        $productId = $request->route('id');
-        $product = Product::find($productId);
-
-        return Inertia::render('Product', ['product' => $product]);
+        return Inertia::render('Product', [
+            'product' => $product,
+            'auth' => [
+                'user' => request()->user()
+            ]
+        ]);
     }
 }
