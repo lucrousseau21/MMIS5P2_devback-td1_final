@@ -7,7 +7,7 @@ import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
 import NavLink from "@/Components/NavLink.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
-import Footer from '@/Components/Footer.vue'
+import Footer from "@/Components/Footer.vue";
 
 defineProps({
     title: String,
@@ -39,6 +39,44 @@ const logout = () => {
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('home')">
                                     <ApplicationMark class="block h-9 w-auto" />
+                                    <!-- <div class="block h-9 w-auto">
+                                    <svg
+                                        id="Calque_1"
+                                        data-name="Calque 1"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 500 500"
+                                    >
+                                        <g>
+                                            <g>
+                                                <path
+                                                    class="cls-1"
+                                                    d="M204.7,319.04h-22.83c-5.22,0-9.45-4.23-9.45-9.45v-142.06c0-3.24-.34-6.15-1-8.72-.67-2.57-2.2-4.67-4.57-6.29-2.39-1.62-6.25-2.43-11.58-2.43s-9.53.82-12,2.43c-2.48,1.62-4,3.71-4.57,6.29-.57,2.57-.86,5.48-.86,8.72v164.94c0,3.05.33,5.91,1,8.58.67,2.67,2.24,4.82,4.72,6.43,2.47,1.62,6.47,2.43,12,2.43h49.15c5.22,0,9.45-4.23,9.45-9.45v-11.97c0-5.22-4.23-9.45-9.45-9.45Z"
+                                                />
+                                                <path
+                                                    class="cls-1"
+                                                    d="M245.76,323.75c-1.34-2.18-3.19-3.52-5.57-4-2.39-.47-5-.71-7.86-.71h-18.75v30.87h19.04c2.86,0,5.43-.33,7.71-1,2.29-.67,4.1-2.09,5.43-4.29,1.33-2.18,2-5.66,2-10.43s-.67-8.24-2-10.44Z"
+                                                />
+                                            </g>
+                                            <g>
+                                                <path
+                                                    class="cls-1"
+                                                    d="M270.06,184.87v-34.87h-27.05c-5.34,0-9.25.82-11.72,2.43-2.47,1.62-4.05,3.71-4.71,6.29-.67,2.57-1,5.39-1,8.43v9.17c0,4.73,3.83,8.56,8.56,8.56h35.94Z"
+                                                />
+                                                <path
+                                                    class="cls-1"
+                                                    d="M361.93,330.09c-.57-2.66-2.19-5.91-4.86-9.72l-29.12-44.23c.13-.08.26-.15.39-.22,6.96-4.29,12.68-9.58,17.15-15.86,4.48-6.29,7.86-13.1,10.15-20.44,2.29-7.33,3.43-14.62,3.43-21.87,0-11.43-1.86-21.34-5.58-29.73-3.72-8.39-8.72-15.43-15-21.15-6.29-5.72-13.44-9.96-21.44-12.72-8-2.76-16.29-4.14-24.87-4.14h-22.75v34.87h22.18c6.86,0,12.72,1.29,17.58,3.86s8.57,6.29,11.15,11.15c2.57,4.86,3.85,10.72,3.85,17.58,0,5.72-.81,10.58-2.43,14.58-1.62,4-3.71,7.39-6.29,10.15-2.57,2.76-5.53,4.76-8.86,6-3.34,1.24-6.72,1.86-10.15,1.86h-39.76c-4.73,0-8.56,3.83-8.56,8.56v17.19c0,4.73,3.83,8.56,8.56,8.56h29.83c2.87,0,5.55,1.44,7.14,3.84l34.52,52.19c3.62,5.15,7.15,8.24,10.58,9.29,3.43,1.05,7.91-.43,13.44-4.43,4-2.86,6.76-5.43,8.29-7.72,1.52-2.29,2-4.76,1.43-7.44Z"
+                                                />
+                                            </g>
+                                        </g>
+                                        <rect
+                                            class="cls-1"
+                                            x="198.76"
+                                            y="319.04"
+                                            width="17.18"
+                                            height="30.87"
+                                        />
+                                    </svg>
+                                </div> -->
                                 </Link>
                             </div>
 
@@ -67,7 +105,7 @@ const logout = () => {
                             </div>
                         </div>
 
-                        <div class="hidden sm:flex sm:items-center sm:ms-6">
+                        <div class="hidden sm:flex sm:items-center sm:ml-6">
                             <!-- Non connecté -->
                             <template v-if="!isAuthenticated">
                                 <Link
@@ -86,6 +124,26 @@ const logout = () => {
 
                             <!-- Connecté -->
                             <template v-else>
+                                <!-- Ajout du bouton panier avant les autres éléments du header -->
+                                <a
+                                    class="flex items-center gap-2 px-3 py-2 text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out"
+                                    :href="route('panier')"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="currentColor"
+                                        class="w-6 h-6"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                                        />
+                                    </svg>
+                                </a>
                                 <div class="ms-3 relative">
                                     <Dropdown align="right" width="48">
                                         <template #trigger>

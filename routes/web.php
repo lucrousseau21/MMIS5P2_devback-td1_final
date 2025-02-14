@@ -5,6 +5,10 @@ use App\Http\Controllers\ShowAllCategoriesController;
 use App\Http\Controllers\ShowAllProductsController;
 use App\Http\Controllers\ShowOneProduct;
 use App\Http\Controllers\ShowOneCategory;
+use App\Http\Controllers\ShowPanier;
+use App\Http\Controllers\AddToPanierController;
+use App\Http\Controllers\ShowPanierController;
+use App\Http\Controllers\PanierController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -27,6 +31,7 @@ Route::get('/products/{product}', ShowOneProduct::class)->name('products.show');
 
 Route::get('/categories', ShowAllCategoriesController::class)->name('categories');
 
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -35,4 +40,7 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+    Route::get('/panier', ShowPanierController::class)->name('panier');
+    Route::post('/panier/add', AddToPanierController::class)->name('panier.add');
+    Route::get('/panier', ShowPanierController::class)->name('panier');
 });

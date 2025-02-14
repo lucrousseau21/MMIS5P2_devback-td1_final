@@ -15,9 +15,9 @@ class ShowOneProduct extends Controller
     {
         return Inertia::render('Product', [
             'product' => $product,
-            'auth' => [
-                'user' => request()->user()
-            ]
+            // 'auth' => [
+            //     'user' => request()->user()
+            // ]
         ]);
     }
 }

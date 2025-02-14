@@ -3,10 +3,11 @@ import { Head, Link } from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
 
 const props = defineProps({
-    products: {
-        type: String,
-        required: true,
-    },
+    // products: {
+    //     type: String,
+    //     required: true,
+    // },
+    products: Array,
 });
 
 console.log(props.products);
@@ -14,7 +15,7 @@ console.log(props.products);
 
 <template>
     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-    <h1 class="text-3xl font-bold mb-6">Catégories</h1>
+    <h1 class="text-3xl font-bold mb-6">Produits</h1>
     <div
         class="max-w-[1100px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-8"
     >

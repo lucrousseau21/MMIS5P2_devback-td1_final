@@ -1,6 +1,5 @@
 <script setup>
-import { Head, Link } from "@inertiajs/vue3";
-import AppLayout from '@/Layouts/AppLayout.vue';
+import { Head, Link, router } from "@inertiajs/vue3";
 
 const props = defineProps({
     product: {
@@ -13,7 +12,14 @@ const props = defineProps({
     }
 });
 
-console.log(props.products);
+console.log(props.product);
+
+const addToPanier = (productId) => {
+    router.post(route('panier.add'), {
+        product_id: productId,
+        quantity: 1
+    });
+};
 </script>
 
 <template>
@@ -67,13 +73,13 @@ console.log(props.products);
                         </div>
 
                         <!-- Bouton pour utilisateur connecté -->
-                        <a
+                        <button 
                             v-else
-                            type="button"
+                            @click="addToPanier(product.id)"
                             class="w-full bg-indigo-600 py-3 px-4 rounded-md text-white font-semibold hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                         >
                             Ajouter au panier
-                        </a>
+                        </button>
                     </div>
 
                     <!-- Retour à la liste des produits -->
