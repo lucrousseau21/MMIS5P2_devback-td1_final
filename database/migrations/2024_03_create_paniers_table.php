@@ -8,11 +8,11 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('paniers', function (Blueprint $table) {
+        Schema::create('paniers', function (Blueprint $table) { 
             $table->id();
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
-            $table->integer('quantity')->default(1);
+            // $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            // $table->integer('quantity')->default(1);
             $table->timestamps();
         });
     }

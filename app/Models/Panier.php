@@ -12,7 +12,8 @@ class Panier extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['customer_id', 'product_id', 'quantity'];
+    // protected $fillable = ['customer_id', 'product_id', 'quantity'];
+    protected $fillable = ['customer_id'];
 
     public function user()
     {
@@ -29,8 +30,8 @@ class Panier extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    // public function items()
-    // {
-    //     return $this->hasMany(PanierItem::class);
-    // }
+    public function items()
+    {
+        return $this->hasMany(CartItem::class);
+    }
 }

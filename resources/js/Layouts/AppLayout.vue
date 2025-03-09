@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import { Head, Link, router, usePage } from "@inertiajs/vue3";
 import ApplicationMark from "@/Components/ApplicationMark.vue";
 import Banner from "@/Components/Banner.vue";
@@ -18,19 +18,68 @@ const page = usePage();
 const auth = computed(() => page.props.auth || { user: null });
 const isAuthenticated = computed(() => auth.value.user !== null);
 
+// Mode sombre
+const darkMode = ref(false);
+
+// Initialiser le mode selon la préférence système ou stockée
+onMounted(() => {
+    // Vérifier si un thème est enregistré dans le localStorage
+    const savedTheme = localStorage.getItem('theme');
+    
+    if (savedTheme) {
+        // Utiliser le thème enregistré
+        darkMode.value = savedTheme === 'dark';
+    } else {
+        // Sinon, utiliser la préférence du système
+        darkMode.value = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    
+    // Appliquer le thème
+    applyTheme();
+    
+    // Écouter les changements de préférence système
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (!localStorage.getItem('theme')) { // Ne pas écraser la préférence utilisateur
+            darkMode.value = e.matches;
+            applyTheme();
+        }
+    });
+});
+
+// Observer les changements de mode et appliquer
+watch(darkMode, () => {
+    applyTheme();
+    // Enregistrer la préférence
+    localStorage.setItem('theme', darkMode.value ? 'dark' : 'light');
+});
+
+// Appliquer le thème au document
+const applyTheme = () => {
+    if (darkMode.value) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+};
+
+// Basculer manuellement le mode
+const toggleDarkMode = () => {
+    darkMode.value = !darkMode.value;
+};
+
 const logout = () => {
     router.post(route("logout"));
 };
 </script>
 
 <template>
-    <div>
+    <div :class="{ 'dark': darkMode }">
         <Head :title="title" />
 
         <Banner />
 
-        <div class="min-h-screen bg-gray-100">
-            <nav class="bg-white border-b border-gray-100">
+        <div class="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+            <nav class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 transition-colors duration-300">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
@@ -38,7 +87,7 @@ const logout = () => {
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('home')">
-                                    <ApplicationMark class="block h-9 w-auto" />
+                                    <ApplicationMark class="block h-9 w-auto dark:text-white" />
                                     <!-- <div class="block h-9 w-auto">
                                     <svg
                                         id="Calque_1"
@@ -87,18 +136,21 @@ const logout = () => {
                                 <NavLink
                                     :href="route('home')"
                                     :active="route().current('home')"
+                                    class="dark:text-gray-300 dark:hover:text-white"
                                 >
                                     Accueil
                                 </NavLink>
                                 <NavLink
                                     :href="route('categories')"
                                     :active="route().current('categories')"
+                                    class="dark:text-gray-300 dark:hover:text-white"
                                 >
                                     Catégories
                                 </NavLink>
                                 <NavLink
                                     :href="route('products')"
                                     :active="route().current('products')"
+                                    class="dark:text-gray-300 dark:hover:text-white"
                                 >
                                     Products
                                 </NavLink>
@@ -106,17 +158,31 @@ const logout = () => {
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
+                            <!-- Bouton de bascule du mode sombre -->
+                            <button 
+                                @click="toggleDarkMode" 
+                                class="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition duration-150 ease-in-out"
+                                aria-label="Toggle dark mode"
+                            >
+                                <svg v-if="darkMode" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                                </svg>
+                                <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                                </svg>
+                            </button>
+
                             <!-- Non connecté -->
                             <template v-if="!isAuthenticated">
                                 <Link
                                     :href="route('login')"
-                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition"
+                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-gray-500 dark:text-gray-300 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-white focus:outline-none transition"
                                 >
                                     Se connecter
                                 </Link>
                                 <Link
                                     :href="route('register')"
-                                    class="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    class="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
                                 >
                                     S'inscrire
                                 </Link>
@@ -126,8 +192,8 @@ const logout = () => {
                             <template v-else>
                                 <!-- Ajout du bouton panier avant les autres éléments du header -->
                                 <a
-                                    class="flex items-center gap-2 px-3 py-2 text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out"
-                                    :href="route('panier')"
+                                class="flex items-center gap-2 px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition duration-150 ease-in-out"
+                                :href="route('panier')"
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -144,6 +210,44 @@ const logout = () => {
                                         />
                                     </svg>
                                 </a>
+                                <a
+                                class="flex items-center gap-2 px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition duration-150 ease-in-out"
+                                :href="route('orders.index')"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="currentColor"
+                                        class="w-6 h-6"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M3 3h18v4H3V3zm0 4v14h18V7H3zm3 4h12v2H6v-2zm0 4h12v2H6v-2z"
+                                        />
+                                    </svg>
+                                </a>
+                                <a
+                                class="flex items-center gap-2 px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition duration-150 ease-in-out"
+                                :href="route('addresses.index')"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="currentColor"
+                                        class="w-6 h-6"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M12 11.25c1.518 0 2.75-1.232 2.75-2.75S13.518 5.75 12 5.75 9.25 6.982 9.25 8.5s1.232 2.75 2.75 2.75zM12 2.25c3.45 0 6.25 2.8 6.25 6.25 0 4.5-6.25 11.25-6.25 11.25S5.75 13 5.75 8.5C5.75 5.05 8.55 2.25 12 2.25z"
+                                        />
+                                    </svg>
+                                </a>
                                 <div class="ms-3 relative">
                                     <Dropdown align="right" width="48">
                                         <template #trigger>
@@ -152,8 +256,8 @@ const logout = () => {
                                                     $page.props.jetstream
                                                         .managesProfilePhotos
                                                 "
-                                                class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition"
-                                            >
+                                                    class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-300 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-white focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-700 active:bg-gray-50 dark:active:bg-gray-700 transition ease-in-out duration-150"
+                                                    >
                                                 <img
                                                     class="size-8 rounded-full object-cover"
                                                     :src="
@@ -210,6 +314,21 @@ const logout = () => {
                                                 :href="route('profile.show')"
                                             >
                                                 Profil
+                                            </DropdownLink>
+                                            <DropdownLink
+                                                :href="route('panier')"
+                                            >
+                                                Mon panier
+                                            </DropdownLink>
+                                            <DropdownLink
+                                                :href="route('orders.index')"
+                                            >
+                                                Mes commandes 
+                                            </DropdownLink>
+                                            <DropdownLink
+                                                :href="route('addresses.index')"
+                                            >
+                                                Mes adresses
                                             </DropdownLink>
 
                                             <div

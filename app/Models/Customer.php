@@ -34,7 +34,6 @@ class Customer extends Model
     protected $with = [
         'user',
     ];
-    // par default, on récupère les données de user associé au customer
 
     public function user(): BelongsTo
     {
@@ -46,5 +45,10 @@ class Customer extends Model
         // return $this->hasOne(Panier::class, 'customer_id', 'id');
         return $this->hasOne(Panier::class);
 
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
     }
 }

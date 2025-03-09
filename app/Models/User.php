@@ -73,7 +73,6 @@ class User extends Authenticatable implements FilamentUser
         return $this->isAdmin() && $this->hasVerifiedEmail();
     }
 
-    // Méthodes helpers pour vérifier le rôle
     public function isAdmin(): bool
     {
         return $this->role === UserRole::ADMIN;
@@ -88,4 +87,9 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->hasOne(Customer::class);
     }
+
+    public function address()
+{
+    return $this->hasOne(Address::class);
+}
 }

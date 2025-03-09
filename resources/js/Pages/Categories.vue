@@ -10,22 +10,30 @@ const props = defineProps({
         required: true
     }
 })
-
 </script>
 
 <template>
-    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+    <Head title="Catégories" />
+    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 text-gray-900 dark:text-gray-100">
         <h1 class="text-3xl font-bold mb-6">Catégories</h1>
         
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            <a
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+            <Link
                 v-for="category in categories"
                 :key="category.id"
-                class="bg-white hover:bg-gray-50 text-gray-800 font-semibold py-3 px-6 border border-gray-300 rounded-lg shadow-sm transition duration-150 ease-in-out"
-                href="#"
+                :href="route('categories.show', category.slug)"
+                class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg shadow-sm dark:shadow-gray-900/30 overflow-hidden transition duration-150 ease-in-out flex flex-col"
             >
-                {{ category.name }}
-            </a>
+                <img 
+                    :src="`https://picsum.photos/seed/category-${category.id}0000/400/200`"
+                    :alt="category.name"
+                    class="w-full h-40 object-cover"
+                />
+                
+                <div class="p-4 text-center font-semibold text-lg">
+                    {{ category.name }}
+                </div>
+            </Link>
         </div>
     </div>
 </template>

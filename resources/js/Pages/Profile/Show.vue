@@ -16,12 +16,12 @@ defineProps({
 <template>
     <Section title="Profile">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 Profile
             </h2>
         </template>
 
-        <div>
+        <div class="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
                 <div v-if="$page.props.jetstream.canUpdateProfileInformation">
                     <UpdateProfileInformationForm :user="$page.props.auth.user" />
